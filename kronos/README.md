@@ -17,3 +17,14 @@ Kronos samples 10 possible next candles. Forecast close = mean of the samples; P
 - `python3 -u kronos_pred.py stats` prints the counts.
 
 Compare `accuracy_pct` against `always_up_baseline_pct`: Kronos is only useful if it beats that.
+
+## Backtest 2026-10-19 (Kronos-small, 300 candles x BTC ETH XRP SOL DOGE, 10 samples)
+| | 5m | 15m |
+|---|---|---|
+| Direction right / wrong | 731 / 734 (49.9%) | 778 / 707 (52.4%) |
+| "Always up" baseline | 50.0% | 49.6% |
+| Up signals | 365 | 351 |
+| Signal reached +0.40% within 12 candles | 44.4% | 54.4% |
+| Same, from any candle (baseline) | 37.0% | 51.1% |
+CPU timing (4 cores, 5 coins, 10 samples): mini 2s, small 7s, base 24s. Higher P(up) confidence did not raise accuracy.
+Read: 5m is a coin flip. 15m is slightly better than chance (about 2 standard errors), too weak to trade on yet. Shadow mode runs on 15m small to collect live, out-of-sample counts (`kronos_shadow.log`).
