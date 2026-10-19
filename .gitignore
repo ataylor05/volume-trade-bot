@@ -12,3 +12,6 @@ STOP
 .env
 *.pem
 *.key
+kronos_predictions.csv
+kronos_stats.json
+kronos_backtest_*.csv
