@@ -1,0 +1,14 @@
+# Runtime data stays in the project folder, not the repo
+__pycache__/
+*.pyc
+*.log
+*_state.json
+*_trades.csv
+*_value.csv
+report_last.json
+scan_latest.json
+STOP
+# Credentials
+.env
+*.pem
+*.key
