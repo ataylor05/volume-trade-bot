@@ -8,7 +8,7 @@ Adds Kronos (github.com/shiyu-coder/Kronos, MIT; `model/` is vendored from commi
 - Candles come from Coinbase's public endpoint `/api/v3/brokerage/market/products/{pid}/candles` (no key), oldest first, open candle excluded. Input per prediction: last 400 candles of open, high, low, close, volume, amount (= volume x mean price) plus UTC timestamps.
 
 ## How a prediction works
-Kronos samples 10 possible next candles. Forecast close = mean of the samples; P(up) = share of samples closing above the last close. Direction is **right** when the actual close lands on the predicted side of the last close (flat closes are counted separately). A **signal** (what a trade would act on) is P(up) >= 60% and forecast close >= +0.05%; for signals we also record whether price reached the bot's +0.40% target within 12 candles.
+Kronos samples 10 possible next candles. Forecast close = mean of the samples; P(up) = share of samples closing above the last close. Direction is **right** when the actual close lands on the predicted side of the last close (flat closes are counted separately). A **signal** (what a trade would act on) is P(up) >= 60% and forecast close >= +0.05%; for signals we also record whether price reached the bot's sell target (+0.25% since 2026-10-19 14:45Z, was +0.40%) within 12 candles.
 
 ## Commands (run from this folder)
 - `python3 -u kronos_pred.py bench` times mini/small/base on CPU.
