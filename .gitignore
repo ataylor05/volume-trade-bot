@@ -16,3 +16,5 @@ kronos_predictions.csv
 kronos_stats.json
 kronos_backtest_*.csv
 backtests/*.csv
+grid_bot_state.json
+grid_bot_*.csv
