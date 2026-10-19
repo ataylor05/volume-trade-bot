@@ -1,6 +1,6 @@
 """50/50 BTC grid bot (Allan, 2026-10-19 15:47Z; whole portfolio since 16:09Z) for "Claude - Volume".
 
-Holds half its money in USD and half in BTC. At the start of every 15-minute candle it cancels its
+Holds half its money in USD and half in BTC. At the start of every 30-minute candle it cancels its
 unfilled orders, rebalances if BTC drifts outside 20-80% of its value, then posts two post-only
 (maker) orders: a BUY GAP below the price and a SELL GAP above it, each ORDER_FRAC of its value.
 When one fills it posts the exit on the other side TARGET away (0.30% = 2 x 0.10% maker + 0.10%).
@@ -24,10 +24,10 @@ VALUE = os.path.join(DIR, 'grid_bot_value.csv')
 STOP = os.path.join(DIR, 'STOP')
 HOST = 'api.coinbase.com'
 PID = 'BTC-USD'
-CANDLE = 900             # 15-minute candles
-GAP = 0.004              # entry orders 0.40% above/below the candle's starting price
+CANDLE = 1800            # 30-minute candles (Allan, 2026-10-19 18:18Z; was 15)
+GAP = 0.0025             # entry orders 0.25% above/below the candle's starting price (Allan 18:18Z; was 0.40%)
 TARGET = 0.003           # exit 0.30% from the entry fill
-ORDER_FRAC = 0.045       # each entry is this share of the bot's value (backtest: $100 of $2,250)
+ORDER_FRAC = 0.20        # each entry is this share of the bot's value (Allan 18:18Z: bigger orders; was 4.5%)
 BAND = (0.2, 0.8)        # rebalance to 50/50 when BTC share leaves this band
 LOOP_SECS = 10
 
