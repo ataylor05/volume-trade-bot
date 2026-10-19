@@ -9,7 +9,7 @@ import sys, pandas as pd, numpy as np
 
 FEE = 0.001
 
-def sim(df, period=5, off=0.0, tgt=0.003, lot=100, stop=0.04, band=(0.35, 0.65), start=2250.0, max_open=20):
+def sim(df, period=5, off=0.0, tgt=0.003, lot=100, stop=0.04, band=(0.35, 0.65), start=2250.0, max_open=20, cancel_exits=False, flatten=False):
     o, h, l, c = (df[x].values for x in ('open', 'high', 'low', 'close'))
     p0 = o[0]
     usd, coin = start / 2, start / 2 / p0
@@ -42,6 +42,13 @@ def sim(df, period=5, off=0.0, tgt=0.003, lot=100, stop=0.04, band=(0.35, 0.65),
                 pnl_s += x['qty'] * (-abs(c[i] - x['entry'])) - x['qty'] * (c[i] + x['entry']) * FEE
         if i % period == 0:
             entries.clear()
+            if cancel_exits or flatten:     # end of candle: drop unfilled exits; flatten closes the leg at the open
+                for x in exits:
+                    if flatten:
+                        fill(x['side'], o[i], x['qty'])
+                        pnl_s += x['qty'] * ((o[i] - x['entry']) if x['side'] == 'sell' else (x['entry'] - o[i])) - x['qty'] * (o[i] + x['entry']) * FEE
+                        stops += 1
+                exits.clear()
             res_usd = sum(x['px'] * x['qty'] * (1 + FEE) for x in exits if x['side'] == 'buy')
             res_coin = sum(x['qty'] for x in exits if x['side'] == 'sell')
             total = usd + coin * o[i]
